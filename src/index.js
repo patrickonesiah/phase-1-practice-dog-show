@@ -61,14 +61,12 @@ const displayDogTable = dogArray => {
         tableRow.appendChild(editButtonOuter)
         tableBody.appendChild(tableRow)
     });
-
+    console.log(Object.keys(form))
     submitButton(form)
 
 }
 
-// <form id='dog-form' class="padding margin border-round border-grey">
-// <input type="text" name="name" placeholder="dog's name" value="" />
-// <input type="text" name="breed" placeholder="dog's breed" value="" />
-// <input type="text" name="sex" placeholder="dog's sex" value="" />
-// <input type="submit" value="Submit" />
-// </form>
+//What have I learned from this exercise?
+//When the user clicks on edit dog, it sets the values in the form to the object's detail
+//The id was also passed in that form element object, i believe it created an additional property call dogId in form
+//With the dogId, I could use that id to make a Patch to change the detail in db.json
