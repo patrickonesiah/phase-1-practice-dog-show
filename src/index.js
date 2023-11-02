@@ -1,56 +1,68 @@
 const url = 'http://localhost:3000/dogs'
 
+const submitButton = (form) => {
+
+    form.addEventListener('click', () => {
+        const updatedDog = {
+            name: form.name.value,
+            breed: form.breed.value,
+            sex: form.sex.value
+        };
+
+        fetch(`${url}/${form.dogId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updatedDog)
+        })
+    })
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     fetch(url)
-    .then(resp=>resp.json())
-    .then(dogArray=>{
-        displayDogTable(dogArray)
-        submitButton()
-    })
+        .then(resp => resp.json())
+        .then(dogArray => {
+            displayDogTable(dogArray)
+        })
 })
 
-const submitButton = () => {
-    fetch(`${url}/`,
-        )
-    .then()
-}
+
 
 const displayDogTable = dogArray => {
 
     const tableBody = document.querySelector('#table-body')
+    const form = document.querySelector('#dog-form')
 
     dogArray.forEach(dog => {
         const tableRow = document.createElement('tr'),
-        dogName = document.createElement('td'),
-        dogBreed = document.createElement('td'),
-        dogSex = document.createElement('td'),
-        dogButtonOuter = document.createElement('td'),
-        dogButton = document.createElement('button')
+            dogName = document.createElement('td'),
+            dogBreed = document.createElement('td'),
+            dogSex = document.createElement('td'),
+            editButtonOuter = document.createElement('td'),
+            editButton = document.createElement('button')
 
-        dogName.innerText = dog.name
-        dogBreed.innerText = dog.breed
-        dogSex.innerText = dog.sex
-        dogButton.innerText = 'Edit Dog'
+        dogName.textContent = dog.name
+        dogBreed.textContent = dog.breed
+        dogSex.textContent = dog.sex
+        editButton.textContent = 'Edit Dog'
 
-        dogButton.addEventListener('click',(event)=>{
-            const inputElements = document.querySelectorAll('input')
-            const test = event.target.parentNode.parentNode.querySelectorAll('td')
-
-            for(let count = 0; count < 3; count++){
-                inputElements[count].value = test[count].innerText
-                inputElements[count].value = test[count].innerText
-                inputElements[count].value = test[count].innerText
-            }
+        editButton.addEventListener('click', () => {
+            form.dogId = dog.id
+            form.name.value = dog.name
+            form.breed.value = dog.breed
+            form.sex.value = dog.sex
         })
 
         tableRow.appendChild(dogName)
         tableRow.appendChild(dogBreed)
         tableRow.appendChild(dogSex)
-        dogButtonOuter.appendChild(dogButton)
-        tableRow.appendChild(dogButtonOuter)
-
+        editButtonOuter.appendChild(editButton)
+        tableRow.appendChild(editButtonOuter)
         tableBody.appendChild(tableRow)
     });
+
+    submitButton(form)
 
 }
 
